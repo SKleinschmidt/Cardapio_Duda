@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cardápio Digital Pro</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    
+    <style>
+        :root {
+            --primary: #ffcc00;
+            --font-main: 'Segoe UI', sans-serif;
+        }
+
+        body {
+            background-color: #222;
+            color: white;
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        .main-wrapper { width: 100%; max-width: 500px; padding: 15px; box-sizing: border-box; }
+
+        /* ÁREA DO CARDÁPIO */
+        #capture-area {
+            background-color: #121212;
+            padding: 35px 25px;
+            border-radius: 5px;
+        }
+
+        .header { text-align: center; border-bottom: 2px solid var(--primary); padding-bottom: 15px; margin-bottom: 25px; }
+        .header h1 { margin: 0; font-size: 2.6em; text-transform: uppercase; font-weight: 900; color: var(--primary); }
+        .header span { font-size: 1.2em; letter-spacing: 6px; display: block; }
+        
+        .section-title { font-weight: bold; margin-top: 25px; text-transform: uppercase; font-size: 1.2em; border-left: 5px solid var(--primary); padding-left: 12px; color: var(--primary); }
+        .food-text { line-height: 1.6; margin: 12px 0; font-size: 1.1em; }
+
+        .food-img-container { display: flex; justify-content: center; margin-top: 20px; }
+        .food-img { width: 100%; max-width: 300px; height: 220px; border: 3px solid var(--primary); border-radius: 12px; object-fit: cover; }
+
+        .price-list { margin-top: 25px; }
+        .price-item {
+            display: flex; align-items: center;
+            border: 1px solid var(--primary);
+            border-radius: 10px;
+            margin-bottom: 10px;
+            height: 55px;
+            background: rgba(255,255,255,0.05);
+        }
+        .size-badge { background: var(--primary); color: #000; font-weight: 900; height: 100%; width: 55px; display: flex; align-items: center; justify-content: center; font-size: 1.3em; border-radius: 8px 0 0 8px; }
+        .price-value { padding-left: 20px; font-size: 1.4em; font-weight: bold; }
+
+        .footer-info { text-align: center; margin-top: 35px; }
+        .footer-info p { margin:0; letter-spacing: 2px; color: var(--primary); }
+        .footer-info h2 { margin: 5px 0; font-size: 1.7em; }
+
+        /* PAINEL ADMIN */
+        #admin-panel { background: #fff; color: #333; padding: 20px; border-radius: 12px; margin-top: 20px; width: 100%; box-sizing: border-box; display: none; }
+        label { display: block; font-weight: bold; margin-top: 12px; font-size: 0.85em; color: #666; }
+        input, textarea, select { width: 100%; padding: 10px; margin-top: 5px; border: 1px solid #ccc; border-radius: 6px; box-sizing: border-box; font-size: 16px; }
+        
+        .flex-row { display: flex; gap: 10px; align-items: center; }
+        .btn-group { display: flex; flex-direction: column; gap: 8px; margin-top: 20px; }
+        .btn { border: none; padding: 15px; font-weight: bold; border-radius: 6px; cursor: pointer; text-transform: uppercase; }
+        .btn-save { background: #27ae60; color: white; }
+        .btn-jpg { background: #2980b9; color: white; }
+    </style>
+</head>
+<body>
+
+<div class="main-wrapper">
+    <div id="capture-area">
+        <div class="header" id="card-header">
+            <h1 id="brand-name">CARDÁPIO</h1>
+            <span>DO DIA</span>
+        </div>
+
+        <div id="display-content"></div>
+        <div class="food-img-container" id="display-images"></div>
+        <div class="price-list" id="display-prices"></div>
+
+        <div class="footer-info">
+            <p id="footer-tag">FAÇA SEU PEDIDO</p>
+            <h2 id="display-phone"></h2>
+        </div>
+    </div>
+
+    <center><button style="background:none; border:1px solid #777; color:#999; margin:20px; padding:10px" onclick="toggleAdmin()">⚙️ CONFIGURAÇÕES ADMIN</button></center>
+
+    <div id="admin-panel">
+        <h3 style="margin:0">Personalizar Cardápio</h3>
+        
+        <div class="flex-row">
+            <div style="flex:1">
+                <label>Cor do Fundo:</label>
+                <input type="color" id="in-bg-color" onchange="applyLive()">
+            </div>
+            <div style="flex:1">
+                <label>Cor da Fonte:</label>
+                <input type="color" id="in-text-color" onchange="applyLive()">
+            </div>
+            <div style="flex:1">
+                <label>Cor Destaque:</label>
+                <input type="color" id="in-primary-color" onchange="applyLive()">
+            </div>
+        </div>
+
+        <label>Estilo da Letra (Fonte):</label>
+        <select id="in-font" onchange="applyLive()">
+            <option value="'Segoe UI', sans-serif">Moderna (Padrão)</option>
+            <option value="'Georgia', serif">Elegante (Clássica)</option>
+            <option value="'Trebuchet MS', sans-serif">Arredondada</option>
+            <option value="'Courier New', monospace">Máquina de Escrever</option>
+        </select>
+
+        <label>Telefone WhatsApp:</label>
+        <input type="text" id="in-phone" placeholder="(00) 00000-0000">
+
+        <label>Acompanhamentos:</label>
+        <textarea id="in-ac" rows="2"></textarea>
+        
+        <label>Carnes:</label>
+        <textarea id="in-cr" rows="2"></textarea>
+
+        <div style="display:flex; gap:5px">
+            <input type="text" id="in-p" placeholder="R$ P">
+            <input type="text" id="in-m" placeholder="R$ M">
+            <input type="text" id="in-g" placeholder="R$ G">
+        </div>
+
+        <label>Foto do Prato:</label>
+        <input type="file" id="in-img" accept="image/*">
+
+        <div class="btn-group">
+            <button class="btn btn-save" onclick="save()">✅ SALVAR E ATUALIZAR</button>
+            <button class="btn btn-jpg" onclick="downloadJPG()">📸 BAIXAR PARA WHATSAPP</button>
+            <button class="btn" onclick="toggleAdmin()" style="background:#eee; color:#333">FECHAR</button>
+        </div>
+    </div>
+</div>
+
+<script>
+    let db = JSON.parse(localStorage.getItem('cardapio_v6')) || {
+        ac: "Arroz, Feijão, Macarrão, Salada",
+        cr: "Frango, Carne Panela",
+        pr: {p:"15,00", m:"20,00", g:"25,00"},
+        phone: "(47) 98421-7160",
+        img: "",
+        bg: "#121212",
+        text: "#ffffff",
+        primary: "#ffcc00",
+        font: "'Segoe UI', sans-serif"
+    };
+
+    function applyLive() {
+        const area = document.getElementById('capture-area');
+        area.style.backgroundColor = document.getElementById('in-bg-color').value;
+        area.style.color = document.getElementById('in-text-color').value;
+        area.style.fontFamily = document.getElementById('in-font').value;
+        
+        // Atualiza a cor primária (dourada) dinamicamente
+        document.documentElement.style.setProperty('--primary', document.getElementById('in-primary-color').value);
+    }
+
+    function render() {
+        const area = document.getElementById('capture-area');
+        area.style.backgroundColor = db.bg;
+        area.style.color = db.text;
+        area.style.fontFamily = db.font;
+        document.documentElement.style.setProperty('--primary', db.primary);
+
+        document.getElementById('display-phone').innerText = db.phone;
+        document.getElementById('display-content').innerHTML = `
+            <div class="section-title">Acompanhamentos</div>
+            <div class="food-text">${db.ac.split(',').join('<br>')}</div>
+            <div class="section-title">Opções de Carnes</div>
+            <div class="food-text"><strong>${db.cr.split(',').join('<br>')}</strong></div>
+        `;
+        document.getElementById('display-prices').innerHTML = `
+            <div class="price-item"><div class="size-badge">P</div><div class="price-value">R$ ${db.pr.p}</div></div>
+            <div class="price-item"><div class="size-badge">M</div><div class="price-value">R$ ${db.pr.m}</div></div>
+            <div class="price-item"><div class="size-badge">G</div><div class="price-value">R$ ${db.pr.g}</div></div>
+        `;
+        document.getElementById('display-images').innerHTML = db.img ? `<img src="${db.img}" class="food-img">` : '';
+    }
+
+    async function save() {
+        db.bg = document.getElementById('in-bg-color').value;
+        db.text = document.getElementById('in-text-color').value;
+        db.primary = document.getElementById('in-primary-color').value;
+        db.font = document.getElementById('in-font').value;
+        db.phone = document.getElementById('in-phone').value;
+        db.ac = document.getElementById('in-ac').value;
+        db.cr = document.getElementById('in-cr').value;
+        db.pr.p = document.getElementById('in-p').value;
+        db.pr.m = document.getElementById('in-m').value;
+        db.pr.g = document.getElementById('in-g').value;
+
+        const file = document.getElementById('in-img').files[0];
+        if(file) {
+            const reader = new FileReader();
+            reader.readAsDataURL(file);
+            reader.onload = () => { db.img = reader.result; finish(); };
+        } else { finish(); }
+    }
+
+    function finish() {
+        localStorage.setItem('cardapio_v6', JSON.stringify(db));
+        render();
+        alert("Configurações salvas!");
+    }
+
+    function downloadJPG() {
+        html2canvas(document.getElementById('capture-area'), { scale: 3 }).then(canvas => {
+            const link = document.createElement('a');
+            link.download = `cardapio.jpg`;
+            link.href = canvas.toDataURL("image/jpeg", 0.9);
+            link.click();
+        });
+    }
+
+    function toggleAdmin() {
+        const p = document.getElementById('admin-panel');
+        if(p.style.display === 'none') {
+            const pass = prompt("Senha:");
+            if(pass === "123") {
+                p.style.display = 'block';
+                document.getElementById('in-bg-color').value = db.bg;
+                document.getElementById('in-text-color').value = db.text;
+                document.getElementById('in-primary-color').value = db.primary;
+                document.getElementById('in-font').value = db.font;
+                document.getElementById('in-phone').value = db.phone;
+                document.getElementById('in-ac').value = db.ac;
+                document.getElementById('in-cr').value = db.cr;
+                document.getElementById('in-p').value = db.pr.p;
+                document.getElementById('in-m').value = db.pr.m;
+                document.getElementById('in-g').value = db.pr.g;
+            }
+        } else { p.style.display = 'none'; }
+    }
+
+    render();
+</script>
+</body>
+</html>

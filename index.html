@@ -3,13 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cardápio Digital Pro</title>
+    <title>Cardápio Digital Pro - V13</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
     
     <style>
-        :root {
-            --primary: #ffcc00;
-            --font-main: 'Segoe UI', sans-serif;
+        /* CSS: Definições visuais e variáveis de cores */
+        :root { 
+            --primary: #ffcc00; 
+            --badge-color: #ffcc00;
         }
 
         body {
@@ -20,26 +21,51 @@
             flex-direction: column;
             align-items: center;
             min-height: 100vh;
+            font-family: 'Segoe UI', sans-serif;
         }
 
         .main-wrapper { width: 100%; max-width: 500px; padding: 15px; box-sizing: border-box; }
 
-        /* ÁREA DO CARDÁPIO */
+        /* Área do Cardápio que será capturada */
         #capture-area {
             background-color: #121212;
-            padding: 35px 25px;
-            border-radius: 5px;
+            padding: 45px 30px;
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
         }
 
+        /* Faixa do Dia inclinada 45° com texto centralizado */
+        .day-badge {
+            position: absolute;
+            top: 30px;
+            right: -75px;
+            background: var(--badge-color);
+            color: #000;
+            width: 280px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 900;
+            text-transform: uppercase;
+            font-size: 0.9em;
+            transform: rotate(45deg);
+            box-shadow: 0 2px 10px rgba(0,0,0,0.4);
+            z-index: 10;
+        }
+
+        /* Estilo dos textos e blocos do cardápio */
         .header { text-align: center; border-bottom: 2px solid var(--primary); padding-bottom: 15px; margin-bottom: 25px; }
         .header h1 { margin: 0; font-size: 2.6em; text-transform: uppercase; font-weight: 900; color: var(--primary); }
-        .header span { font-size: 1.2em; letter-spacing: 6px; display: block; }
+        .header span { font-size: 1.2em; letter-spacing: 4px; display: block; }
         
         .section-title { font-weight: bold; margin-top: 25px; text-transform: uppercase; font-size: 1.2em; border-left: 5px solid var(--primary); padding-left: 12px; color: var(--primary); }
-        .food-text { line-height: 1.6; margin: 12px 0; font-size: 1.1em; }
+        .food-text { line-height: 1.6; margin: 12px 0; font-size: 1.15em; }
 
-        .food-img-container { display: flex; justify-content: center; margin-top: 20px; }
-        .food-img { width: 100%; max-width: 300px; height: 220px; border: 3px solid var(--primary); border-radius: 12px; object-fit: cover; }
+        .food-img-container { display: flex; justify-content: center; margin-top: 20px; flex-grow: 1; }
+        .food-img { width: 100%; max-width: 320px; height: 240px; border: 3px solid var(--primary); border-radius: 12px; object-fit: cover; }
 
         .price-list { margin-top: 25px; }
         .price-item {
@@ -54,28 +80,33 @@
         .price-value { padding-left: 20px; font-size: 1.4em; font-weight: bold; }
 
         .footer-info { text-align: center; margin-top: 35px; }
-        .footer-info p { margin:0; letter-spacing: 2px; color: var(--primary); }
         .footer-info h2 { margin: 5px 0; font-size: 1.7em; }
+        .address-text { font-size: 0.9em; opacity: 0.8; margin-top: 5px; }
 
-        /* PAINEL ADMIN */
-        #admin-panel { background: #fff; color: #333; padding: 20px; border-radius: 12px; margin-top: 20px; width: 100%; box-sizing: border-box; display: none; }
-        label { display: block; font-weight: bold; margin-top: 12px; font-size: 0.85em; color: #666; }
+        /* PAINEL ADMIN: Organizado com labels para cada cor */
+        #admin-panel { background: #fff; color: #333; padding: 20px; border-radius: 12px; margin: 20px 0; width: 100%; box-sizing: border-box; display: none; }
+        .color-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 15px; }
+        .color-item { display: flex; flex-direction: column; }
+        label { display: block; font-weight: bold; margin-top: 10px; font-size: 0.8em; color: #555; }
         input, textarea, select { width: 100%; padding: 10px; margin-top: 5px; border: 1px solid #ccc; border-radius: 6px; box-sizing: border-box; font-size: 16px; }
         
-        .flex-row { display: flex; gap: 10px; align-items: center; }
-        .btn-group { display: flex; flex-direction: column; gap: 8px; margin-top: 20px; }
-        .btn { border: none; padding: 15px; font-weight: bold; border-radius: 6px; cursor: pointer; text-transform: uppercase; }
+        /* Botões de Cores Diferenciadas */
+        .btn { border: none; padding: 15px; font-weight: bold; border-radius: 6px; cursor: pointer; text-transform: uppercase; width: 100%; margin-top: 8px; font-size: 0.85em; }
         .btn-save { background: #27ae60; color: white; }
-        .btn-jpg { background: #2980b9; color: white; }
+        .btn-insta { background: #e1306c; color: white; }
+        .btn-whats { background: #25d366; color: white; }
+        .btn-close { background: #eee; color: #333; }
     </style>
 </head>
 <body>
 
 <div class="main-wrapper">
     <div id="capture-area">
-        <div class="header" id="card-header">
-            <h1 id="brand-name">CARDÁPIO</h1>
-            <span>DO DIA</span>
+        <div class="day-badge" id="display-day">Segunda-Feira</div>
+        
+        <div class="header">
+            <h1 id="display-title">CARDÁPIO</h1>
+            <span id="display-subtitle">DO DIA</span>
         </div>
 
         <div id="display-content"></div>
@@ -83,47 +114,44 @@
         <div class="price-list" id="display-prices"></div>
 
         <div class="footer-info">
-            <p id="footer-tag">FAÇA SEU PEDIDO</p>
+            <p style="color:var(--primary); font-weight:bold; letter-spacing:2px; margin:0">FAÇA SEU PEDIDO</p>
             <h2 id="display-phone"></h2>
+            <div class="address-text" id="display-address"></div>
         </div>
     </div>
 
-    <center><button style="background:none; border:1px solid #777; color:#999; margin:20px; padding:10px" onclick="toggleAdmin()">⚙️ CONFIGURAÇÕES ADMIN</button></center>
+    <center>
+        <button style="background:none; border:1px solid #777; color:#999; margin:20px; padding:10px; cursor:pointer" onclick="toggleAdmin()">⚙️ CONFIGURAÇÕES ADMIN</button>
+    </center>
 
     <div id="admin-panel">
-        <h3 style="margin:0">Personalizar Cardápio</h3>
+        <h3 style="margin:0">Painel de Configurações</h3>
         
-        <div class="flex-row">
-            <div style="flex:1">
-                <label>Cor do Fundo:</label>
-                <input type="color" id="in-bg-color" onchange="applyLive()">
-            </div>
-            <div style="flex:1">
-                <label>Cor da Fonte:</label>
-                <input type="color" id="in-text-color" onchange="applyLive()">
-            </div>
-            <div style="flex:1">
-                <label>Cor Destaque:</label>
-                <input type="color" id="in-primary-color" onchange="applyLive()">
-            </div>
+        <p style="font-size: 0.9em; font-weight: bold; margin-bottom: 5px;">Cores da Marca:</p>
+        <div class="color-grid">
+            <div class="color-item"><label>Fundo</label><input type="color" id="in-bg-color" onchange="applyLive()"></div>
+            <div class="color-item"><label>Texto</label><input type="color" id="in-text-color" onchange="applyLive()"></div>
+            <div class="color-item"><label>Destaque/Bordas</label><input type="color" id="in-primary-color" onchange="applyLive()"></div>
+            <div class="color-item"><label>Faixa do Dia</label><input type="color" id="in-badge-color" onchange="applyLive()"></div>
         </div>
 
-        <label>Estilo da Letra (Fonte):</label>
-        <select id="in-font" onchange="applyLive()">
-            <option value="'Segoe UI', sans-serif">Moderna (Padrão)</option>
-            <option value="'Georgia', serif">Elegante (Clássica)</option>
-            <option value="'Trebuchet MS', sans-serif">Arredondada</option>
-            <option value="'Courier New', monospace">Máquina de Escrever</option>
+        <div style="display:flex; gap:10px">
+            <div style="flex:1"><label>Título:</label><input type="text" id="in-title"></div>
+            <div style="flex:1"><label>Subtítulo:</label><input type="text" id="in-subtitle"></div>
+        </div>
+
+        <label>Dia na Faixa Lateral:</label>
+        <select id="in-day">
+            <option value="Segunda">Segunda</option><option value="Terça">Terça</option>
+            <option value="Quarta">Quarta</option><option value="Quinta">Quinta</option>
+            <option value="Sexta">Sexta</option><option value="Sábado">Sábado</option>
+            <option value="Domingo">Domingo</option>
         </select>
 
-        <label>Telefone WhatsApp:</label>
-        <input type="text" id="in-phone" placeholder="(00) 00000-0000">
-
-        <label>Acompanhamentos:</label>
-        <textarea id="in-ac" rows="2"></textarea>
-        
-        <label>Carnes:</label>
-        <textarea id="in-cr" rows="2"></textarea>
+        <label>Endereço de Retirada:</label><input type="text" id="in-address">
+        <label>Telefone WhatsApp:</label><input type="text" id="in-phone">
+        <label>Acompanhamentos (Ex: Arroz, Feijão):</label><textarea id="in-ac" rows="2"></textarea>
+        <label>Carnes Principais:</label><textarea id="in-cr" rows="2"></textarea>
 
         <div style="display:flex; gap:5px">
             <input type="text" id="in-p" placeholder="R$ P">
@@ -131,48 +159,49 @@
             <input type="text" id="in-g" placeholder="R$ G">
         </div>
 
-        <label>Foto do Prato:</label>
-        <input type="file" id="in-img" accept="image/*">
+        <label>Foto do Prato do Dia:</label><input type="file" id="in-img" accept="image/*">
 
-        <div class="btn-group">
-            <button class="btn btn-save" onclick="save()">✅ SALVAR E ATUALIZAR</button>
-            <button class="btn btn-jpg" onclick="downloadJPG()">📸 BAIXAR PARA WHATSAPP</button>
-            <button class="btn" onclick="toggleAdmin()" style="background:#eee; color:#333">FECHAR</button>
-        </div>
+        <button class="btn btn-save" onclick="save()">✅ SALVAR DADOS NO SISTEMA</button>
+        <button class="btn btn-insta" onclick="downloadImage('feed')">📸 FEED INSTAGRAM (QUADRADO)</button>
+        <button class="btn btn-insta" onclick="downloadImage('story')">📱 STORIES INSTAGRAM (VERTICAL)</button>
+        <button class="btn btn-whats" onclick="downloadImage('status')">💬 STATUS WHATSAPP (VERTICAL)</button>
+        <button class="btn btn-close" onclick="toggleAdmin()">FECHAR PAINEL</button>
     </div>
 </div>
 
 <script>
-    let db = JSON.parse(localStorage.getItem('cardapio_v6')) || {
-        ac: "Arroz, Feijão, Macarrão, Salada",
-        cr: "Frango, Carne Panela",
-        pr: {p:"15,00", m:"20,00", g:"25,00"},
-        phone: "(47) 98421-7160",
-        img: "",
-        bg: "#121212",
-        text: "#ffffff",
-        primary: "#ffcc00",
-        font: "'Segoe UI', sans-serif"
+    /* JAVASCRIPT: Controle de dados e geração de imagens */
+
+    // Carrega dados salvos ou padrões
+    let db = JSON.parse(localStorage.getItem('cardapio_v13')) || {
+        title: "CARDÁPIO", subtitle: "DO DIA", day: "Segunda-Feira",
+        address: "Rua Exemplo, 123", phone: "(47) 98421-7160",
+        ac: "Arroz, Feijão, Macarrão, Salada", cr: "Frango à Milanesa",
+        pr: {p:"15,00", m:"20,00", g:"25,00"}, bg: "#121212", text: "#ffffff", primary: "#ffcc00", badge: "#ffcc00"
     };
 
+    // Aplica cores em tempo real durante a edição
     function applyLive() {
         const area = document.getElementById('capture-area');
         area.style.backgroundColor = document.getElementById('in-bg-color').value;
         area.style.color = document.getElementById('in-text-color').value;
-        area.style.fontFamily = document.getElementById('in-font').value;
-        
-        // Atualiza a cor primária (dourada) dinamicamente
         document.documentElement.style.setProperty('--primary', document.getElementById('in-primary-color').value);
+        document.documentElement.style.setProperty('--badge-color', document.getElementById('in-badge-color').value);
     }
 
+    // Renderiza os dados no HTML
     function render() {
         const area = document.getElementById('capture-area');
         area.style.backgroundColor = db.bg;
         area.style.color = db.text;
-        area.style.fontFamily = db.font;
         document.documentElement.style.setProperty('--primary', db.primary);
+        document.documentElement.style.setProperty('--badge-color', db.badge);
 
+        document.getElementById('display-title').innerText = db.title;
+        document.getElementById('display-subtitle').innerText = db.subtitle;
+        document.getElementById('display-day').innerText = db.day;
         document.getElementById('display-phone').innerText = db.phone;
+        document.getElementById('display-address').innerText = db.address;
         document.getElementById('display-content').innerHTML = `
             <div class="section-title">Acompanhamentos</div>
             <div class="food-text">${db.ac.split(',').join('<br>')}</div>
@@ -187,11 +216,17 @@
         document.getElementById('display-images').innerHTML = db.img ? `<img src="${db.img}" class="food-img">` : '';
     }
 
+    // Salva e converte imagem de upload
     async function save() {
+        db.title = document.getElementById('in-title').value;
+        db.subtitle = document.getElementById('in-subtitle').value;
+        let d = document.getElementById('in-day').value;
+        db.day = (d === "Sábado" || d === "Domingo") ? d : d + "-Feira";
+        db.address = document.getElementById('in-address').value;
         db.bg = document.getElementById('in-bg-color').value;
         db.text = document.getElementById('in-text-color').value;
         db.primary = document.getElementById('in-primary-color').value;
-        db.font = document.getElementById('in-font').value;
+        db.badge = document.getElementById('in-badge-color').value;
         db.phone = document.getElementById('in-phone').value;
         db.ac = document.getElementById('in-ac').value;
         db.cr = document.getElementById('in-cr').value;
@@ -203,35 +238,58 @@
         if(file) {
             const reader = new FileReader();
             reader.readAsDataURL(file);
-            reader.onload = () => { db.img = reader.result; finish(); };
-        } else { finish(); }
+            reader.onload = () => { db.img = reader.result; finishSave(); };
+        } else { finishSave(); }
     }
 
-    function finish() {
-        localStorage.setItem('cardapio_v6', JSON.stringify(db));
+    function finishSave() {
+        localStorage.setItem('cardapio_v13', JSON.stringify(db));
         render();
-        alert("Configurações salvas!");
+        alert("Salvo com sucesso!");
     }
 
-    function downloadJPG() {
-        html2canvas(document.getElementById('capture-area'), { scale: 3 }).then(canvas => {
+    // FUNÇÃO PARA DOWNLOAD EM MÚLTIPLOS FORMATOS
+    function downloadImage(format) {
+        const area = document.getElementById('capture-area');
+        const originalStyle = area.style.cssText;
+
+        // Formatação dinâmica para Redes Sociais
+        if(format === 'feed') {
+            area.style.width = "600px";
+            area.style.height = "600px";
+            area.style.justifyContent = "center";
+        } else if(format === 'story' || format === 'status') {
+            area.style.width = "1080px";
+            area.style.height = "1920px";
+            area.style.padding = "150px 80px";
+            area.style.fontSize = "2.2em"; // Letras maiores para celular
+        }
+
+        // Gera a imagem com alta qualidade (scale: 2)
+        html2canvas(area, { scale: 2 }).then(canvas => {
             const link = document.createElement('a');
-            link.download = `cardapio.jpg`;
+            link.download = `cardapio-${format}.jpg`;
             link.href = canvas.toDataURL("image/jpeg", 0.9);
             link.click();
+            area.style.cssText = originalStyle; // Restaura visual da tela
+            render();
         });
     }
 
+    // Controle do Admin
     function toggleAdmin() {
         const p = document.getElementById('admin-panel');
         if(p.style.display === 'none') {
-            const pass = prompt("Senha:");
-            if(pass === "123") {
+            if(prompt("Senha:") === "123") {
                 p.style.display = 'block';
+                // Carrega campos com dados do banco
+                document.getElementById('in-title').value = db.title;
+                document.getElementById('in-subtitle').value = db.subtitle;
+                document.getElementById('in-address').value = db.address;
                 document.getElementById('in-bg-color').value = db.bg;
                 document.getElementById('in-text-color').value = db.text;
                 document.getElementById('in-primary-color').value = db.primary;
-                document.getElementById('in-font').value = db.font;
+                document.getElementById('in-badge-color').value = db.badge;
                 document.getElementById('in-phone').value = db.phone;
                 document.getElementById('in-ac').value = db.ac;
                 document.getElementById('in-cr').value = db.cr;

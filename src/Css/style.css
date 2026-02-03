@@ -1,0 +1,128 @@
+:root { 
+    --primary: #ffcc00; 
+    --badge: #ffcc00;
+    --text: #ffffff;
+    --bg: #121212;
+    --glass: rgba(255, 255, 255, 0.08);
+}
+
+body {
+    background-color: #0a0a0a;
+    color: var(--text);
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    font-family: 'Inter', sans-serif;
+}
+
+/* ÁREA DO CARDÁPIO */
+#capture-area {
+    background-color: var(--bg);
+    width: 450px;
+    height: 800px;
+    padding: 40px 30px;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    overflow: hidden;
+    box-sizing: border-box;
+}
+
+.badge-day {
+    position: absolute;
+    top: 40px;
+    right: -80px;
+    background: var(--badge);
+    color: #000;
+    width: 300px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 900;
+    text-transform: uppercase;
+    transform: rotate(45deg);
+    z-index: 10;
+}
+
+.block-header {
+    border-left: 6px solid var(--primary);
+    padding-left: 15px;
+    margin-bottom: 20px;
+    flex-shrink: 0;
+}
+.block-header h1 { margin: 0; font-size: 2.3em; font-weight: 900; color: var(--primary); line-height: 1; }
+.block-header span { font-size: 1em; letter-spacing: 4px; display: block; opacity: 0.8; }
+
+.block-image {
+    width: 100%;
+    height: 180px;
+    margin-bottom: 20px;
+    flex-shrink: 0;
+    border-radius: 12px;
+    overflow: hidden;
+}
+.block-image img { width: 100%; height: 100%; object-fit: cover; }
+
+.block-menu {
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    overflow: hidden;
+}
+.menu-title { font-weight: 800; text-transform: uppercase; font-size: 0.85em; color: var(--primary); margin-bottom: 4px;}
+.menu-items { line-height: 1.3; font-size: 1.1em; margin-bottom: 10px; }
+
+.block-prices {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 8px;
+    margin-bottom: 20px;
+    flex-shrink: 0;
+}
+.price-card {
+    background: var(--glass);
+    padding: 10px;
+    border-radius: 8px;
+    text-align: center;
+}
+.price-card b { display: block; color: var(--primary); font-size: 1.1em; }
+
+.block-footer {
+    text-align: center;
+    padding-top: 15px;
+    border-top: 1px solid rgba(255,255,255,0.1);
+    flex-shrink: 0;
+}
+#label-pedidos { color: var(--primary); font-weight: 800; letter-spacing: 1px; font-size: 0.7em; }
+.footer-phone { font-size: 1.6em; font-weight: 900; display: block; }
+.footer-address { font-size: 0.85em; opacity: 0.6; display: block; }
+
+/* PAINEL ADMIN */
+#btn-config { margin: 20px; background: none; border: 1px solid #444; color: #888; padding: 10px 20px; border-radius: 20px; cursor: pointer; }
+
+#admin-panel {
+    background: #fff;
+    color: #333;
+    width: 100%;
+    max-width: 480px;
+    padding: 25px;
+    border-radius: 20px;
+    margin-bottom: 50px;
+    display: none;
+    box-sizing: border-box;
+}
+
+.admin-section-title { font-size: 0.8em; font-weight: 900; color: #2c3e50; border-bottom: 2px solid #eee; margin: 15px 0 10px; padding-bottom: 5px; text-transform: uppercase; }
+.admin-box { background: #f9f9f9; padding: 12px; border-radius: 10px; margin-bottom: 10px; }
+.field-group label { font-size: 0.65em; font-weight: 800; color: #555; text-transform: uppercase; display: block; margin-bottom: 4px; }
+.admin-grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
+
+input, textarea, select { width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 8px; box-sizing: border-box; }
+textarea { height: 60px; }
+
+.btn-main { width: 100%; padding: 15px; border: none; border-radius: 10px; cursor: pointer; font-weight: 900; text-transform: uppercase; margin-top: 10px; }
+.save { background: #27ae60; color: white; }
+.download { background: #25d366; color: white; }

@@ -3,161 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cardápio Digital Pro - Admin Legendado</title>
+    <title>Cardápio Digital Pro</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="src/Css/style.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
-    
-    <style>
-        /* ============================================================
-           1. VARIÁVEIS E GERAL
-           ============================================================ */
-        :root { 
-            --primary: #ffcc00; 
-            --badge: #ffcc00;
-            --text: #ffffff;
-            --bg: #121212;
-            --glass: rgba(255, 255, 255, 0.08);
-        }
-
-        body {
-            background-color: #0a0a0a;
-            color: var(--text);
-            margin: 0;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            font-family: 'Inter', sans-serif;
-        }
-
-        /* ============================================================
-           2. CONTAINER DE CAPTURA
-           ============================================================ */
-        #capture-area {
-            background-color: var(--bg);
-            width: 450px;
-            height: 800px;
-            padding: 40px 30px;
-            display: flex;
-            flex-direction: column;
-            position: relative;
-            overflow: hidden;
-            box-sizing: border-box;
-            border: 1px solid #222;
-        }
-
-        .badge-day {
-            position: absolute;
-            top: 40px;
-            right: -80px;
-            background: var(--badge);
-            color: #000;
-            width: 300px;
-            height: 40px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: 900;
-            text-transform: uppercase;
-            transform: rotate(45deg);
-            z-index: 10;
-        }
-
-        .block-header {
-            border-left: 6px solid var(--primary);
-            padding-left: 15px;
-            margin-bottom: 20px;
-            flex-shrink: 0;
-        }
-        .block-header h1 { margin: 0; font-size: 2.3em; font-weight: 900; color: var(--primary); line-height: 1; }
-        .block-header span { font-size: 1em; letter-spacing: 4px; display: block; opacity: 0.8; }
-
-        .block-image {
-            width: 100%;
-            height: 180px;
-            margin-bottom: 20px;
-            flex-shrink: 0;
-            border-radius: 12px;
-            overflow: hidden;
-            border: 1px solid rgba(255,255,255,0.1);
-        }
-        .block-image img { width: 100%; height: 100%; object-fit: cover; }
-
-        .block-menu {
-            flex-grow: 1;
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-            overflow: hidden;
-        }
-        .menu-title { font-weight: 800; text-transform: uppercase; font-size: 0.85em; color: var(--primary); }
-        .menu-items { line-height: 1.3; font-size: 1.1em; margin-bottom: 10px; }
-
-        .block-prices {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 8px;
-            margin-bottom: 20px;
-            flex-shrink: 0;
-        }
-        .price-card {
-            background: var(--glass);
-            padding: 10px;
-            border-radius: 8px;
-            text-align: center;
-            border: 1px solid rgba(255,255,255,0.05);
-        }
-        .price-card b { display: block; color: var(--primary); font-size: 1.1em; }
-        .price-card span { font-size: 0.95em; font-weight: 700; }
-
-        .block-footer {
-            text-align: center;
-            padding-top: 15px;
-            border-top: 1px solid rgba(255,255,255,0.1);
-            flex-shrink: 0;
-        }
-        .footer-phone { font-size: 1.6em; font-weight: 900; display: block; }
-        .footer-address { font-size: 0.85em; opacity: 0.6; display: block; margin-top: 4px; }
-
-        /* ============================================================
-           3. PAINEL ADMIN (Legendado)
-           ============================================================ */
-        #admin-panel {
-            background: #fff;
-            color: #333;
-            width: 100%;
-            max-width: 480px;
-            padding: 25px;
-            border-radius: 20px;
-            margin: 20px 0;
-            display: none;
-            box-sizing: border-box;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
-        }
-        
-        .admin-section-title {
-            font-size: 0.9em;
-            font-weight: 900;
-            color: #2c3e50;
-            border-bottom: 2px solid #eee;
-            margin: 15px 0 10px 0;
-            padding-bottom: 5px;
-            text-transform: uppercase;
-        }
-
-        .admin-box { background: #f9f9f9; padding: 12px; border-radius: 10px; margin-bottom: 10px; border: 1px solid #eee; }
-        
-        .field-group { margin-bottom: 12px; }
-        .field-group label { font-size: 0.7em; font-weight: 800; color: #555; text-transform: uppercase; display: block; margin-bottom: 4px; }
-        
-        /* Grid de cores e preços */
-        .admin-grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
-        
-        input, textarea, select { width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 8px; box-sizing: border-box; font-family: inherit; font-size: 0.9em; }
-        input[type="color"] { height: 45px; padding: 2px; cursor: pointer; }
-        textarea { height: 60px; resize: none; }
-        
-        .btn-main { width: 100%; padding: 15px; border: none; border-radius: 10px; cursor: pointer; font-weight: 900; text-transform: uppercase; margin-top: 10px; letter-spacing: 1px; }
-    </style>
 </head>
 <body>
 
@@ -180,16 +29,15 @@
         </main>
         <section class="block-prices" id="view-prices"></section>
         <footer class="block-footer">
-            <small style="color:var(--primary); font-weight: 800; letter-spacing: 1px;">PEDIDOS NO WHATSAPP</small>
+            <small id="label-pedidos">PEDIDOS NO WHATSAPP</small>
             <span class="footer-phone" id="view-phone"></span>
             <span class="footer-address" id="view-address"></span>
         </footer>
     </div>
 
-    <button onclick="toggleAdmin()" style="margin: 20px; background: none; border: 1px solid #444; color: #888; padding: 10px 20px; border-radius: 20px; cursor: pointer; font-weight: bold;">⚙️ CONFIGURAÇÕES DO ADMIN</button>
+    <button onclick="toggleAdmin()" id="btn-config">⚙️ CONFIGURAÇÕES DO ADMIN</button>
 
     <div id="admin-panel">
-        
         <div class="admin-section-title">🎨 Identidade Visual</div>
         <div class="admin-box admin-grid-3">
             <div class="field-group">
@@ -210,11 +58,11 @@
         <div class="admin-box">
             <div class="field-group">
                 <label>Título Principal</label>
-                <input type="text" id="in-title" placeholder="Ex: CARDÁPIO">
+                <input type="text" id="in-title">
             </div>
             <div class="field-group">
                 <label>Subtítulo</label>
-                <input type="text" id="in-subtitle" placeholder="Ex: SABORES DO DIA">
+                <input type="text" id="in-subtitle">
             </div>
             <div class="field-group">
                 <label>Dia da Semana (Faixa)</label>
@@ -234,11 +82,11 @@
         <div class="admin-box">
             <div class="field-group">
                 <label>Acompanhamentos (separe com vírgula)</label>
-                <textarea id="in-ac" placeholder="Arroz, Feijão, Salada..."></textarea>
+                <textarea id="in-ac"></textarea>
             </div>
             <div class="field-group">
                 <label>Opções de Carne (separe com vírgula)</label>
-                <textarea id="in-cr" placeholder="Frango, Bife, Peixe..."></textarea>
+                <textarea id="in-cr"></textarea>
             </div>
             <div class="field-group">
                 <label>Foto do Prato</label>
@@ -250,15 +98,15 @@
         <div class="admin-box admin-grid-3">
             <div class="field-group">
                 <label>Preço P</label>
-                <input type="text" id="in-p" placeholder="00,00">
+                <input type="text" id="in-p">
             </div>
             <div class="field-group">
                 <label>Preço M</label>
-                <input type="text" id="in-m" placeholder="00,00">
+                <input type="text" id="in-m">
             </div>
             <div class="field-group">
                 <label>Preço G</label>
-                <input type="text" id="in-g" placeholder="00,00">
+                <input type="text" id="in-g">
             </div>
         </div>
 
@@ -266,113 +114,18 @@
         <div class="admin-box">
             <div class="field-group">
                 <label>WhatsApp</label>
-                <input type="text" id="in-phone" placeholder="(00) 00000-0000">
+                <input type="text" id="in-phone">
             </div>
             <div class="field-group">
                 <label>Endereço Curto</label>
-                <input type="text" id="in-address" placeholder="Bairro ou Rua, Nº">
+                <input type="text" id="in-address">
             </div>
         </div>
 
-        <button class="btn-main" style="background: #27ae60; color: white;" onclick="save()">✅ Salvar Cardápio</button>
-        <button class="btn-main" style="background: #25d366; color: white;" onclick="download()">📥 Baixar Imagem (WhatsApp)</button>
+        <button class="btn-main save" onclick="save()">✅ Salvar Cardápio</button>
+        <button class="btn-main download" onclick="download()">📥 Baixar Imagem</button>
     </div>
 
-<script>
-    const DB_NAME = 'cardapio_v4_completo';
-    let data = JSON.parse(localStorage.getItem(DB_NAME)) || {
-        title: "CARDÁPIO", subtitle: "SABORES DO DIA", day: "Segunda",
-        bg: "#121212", text: "#ffffff", primary: "#ffcc00",
-        phone: "(47) 99999-9999", address: "Rua Exemplo, 123",
-        ac: "Arroz, Feijão, Fritas", cr: "Carne",
-        pr: {p: "15,00", m: "18,00", g: "22,00"}, img: ""
-    };
-
-    function render() {
-        document.documentElement.style.setProperty('--bg', data.bg);
-        document.documentElement.style.setProperty('--text', data.text);
-        document.documentElement.style.setProperty('--primary', data.primary);
-        document.documentElement.style.setProperty('--badge', data.primary);
-
-        document.getElementById('view-title').innerText = data.title;
-        document.getElementById('view-subtitle').innerText = data.subtitle;
-        document.getElementById('view-day').innerText = data.day;
-        document.getElementById('view-phone').innerText = data.phone;
-        document.getElementById('view-address').innerText = data.address;
-        
-        document.getElementById('view-ac').innerHTML = data.ac.split(',').map(i => i.trim()).join('<br>');
-        document.getElementById('view-cr').innerHTML = data.cr.split(',').map(i => i.trim()).join('<br>');
-
-        document.getElementById('view-prices').innerHTML = `
-            <div class="price-card"><b>P</b><span>R$ ${data.pr.p}</span></div>
-            <div class="price-card"><b>M</b><span>R$ ${data.pr.m}</span></div>
-            <div class="price-card"><b>G</b><span>R$ ${data.pr.g}</span></div>
-        `;
-
-        const imgCont = document.getElementById('view-img-container');
-        imgCont.innerHTML = data.img ? `<img src="${data.img}">` : '';
-    }
-
-    async function save() {
-        data.title = document.getElementById('in-title').value;
-        data.subtitle = document.getElementById('in-subtitle').value;
-        data.day = document.getElementById('in-day').value;
-        data.bg = document.getElementById('in-bg').value;
-        data.text = document.getElementById('in-text').value;
-        data.primary = document.getElementById('in-primary').value;
-        data.ac = document.getElementById('in-ac').value;
-        data.cr = document.getElementById('in-cr').value;
-        data.pr.p = document.getElementById('in-p').value;
-        data.pr.m = document.getElementById('in-m').value;
-        data.pr.g = document.getElementById('in-g').value;
-        data.phone = document.getElementById('in-phone').value;
-        data.address = document.getElementById('in-address').value;
-
-        const file = document.getElementById('in-img').files[0];
-        if(file) {
-            const reader = new FileReader();
-            reader.readAsDataURL(file);
-            reader.onload = () => { data.img = reader.result; finish(); };
-        } else { finish(); }
-    }
-
-    function finish() {
-        localStorage.setItem(DB_NAME, JSON.stringify(data));
-        render();
-        alert("Configurações atualizadas!");
-    }
-
-    function download() {
-        html2canvas(document.getElementById('capture-area'), { scale: 2 }).then(canvas => {
-            const link = document.createElement('a');
-            link.download = `cardapio-${data.day}.jpg`;
-            link.href = canvas.toDataURL("image/jpeg", 0.95);
-            link.click();
-        });
-    }
-
-    function toggleAdmin() {
-        const p = document.getElementById('admin-panel');
-        if(p.style.display === 'none') {
-            if(prompt("Senha:") === "123") {
-                p.style.display = 'block';
-                document.getElementById('in-title').value = data.title;
-                document.getElementById('in-subtitle').value = data.subtitle;
-                document.getElementById('in-day').value = data.day;
-                document.getElementById('in-bg').value = data.bg;
-                document.getElementById('in-text').value = data.text;
-                document.getElementById('in-primary').value = data.primary;
-                document.getElementById('in-ac').value = data.ac;
-                document.getElementById('in-cr').value = data.cr;
-                document.getElementById('in-p').value = data.pr.p;
-                document.getElementById('in-m').value = data.pr.m;
-                document.getElementById('in-g').value = data.pr.g;
-                document.getElementById('in-phone').value = data.phone;
-                document.getElementById('in-address').value = data.address;
-            }
-        } else { p.style.display = 'none'; }
-    }
-    render();
-</script>
+    <script src="src/Js/script.js"></script>
 </body>
 </html>

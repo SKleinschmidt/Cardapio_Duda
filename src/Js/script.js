@@ -1,15 +1,15 @@
 const DB_KEY = 'cardapio_v19_final';
 
-// 1. Carregamento inicial de dados (ATUALIZADO)
+// 1. Carregamento inicial de dados
 let data = JSON.parse(localStorage.getItem(DB_KEY)) || {
     title: "CARDÁPIO",
     subtitle: "SABORES DO DIA",
     day: "Segunda",
     footerLabel: "PEDIDOS NO WHATSAPP",
-    bg: "#A81752",       // Alterado para Vinho
+    bg: "#A81752", /* Cor de fundo (Vinho) */
     text: "#ffffff",
-    primary: "#F4CC69",  // Alterado para Bege/Dourado
-    phone: "(47) 98421-7160",
+    primary: "#ffcc00",
+    phone: "(47) 99999-9999",
     address: "Rua Principal, 123",
     ac: "Arroz, Feijão, Fritas",
     cr: "Carne, Frango",

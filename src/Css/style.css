@@ -1,9 +1,9 @@
 :root { 
-    --primary: #F4CC69;   /* Cor de destaque (Bege/Dourado) */
-    --badge: #F4CC69;     /* Cor dos selos e faixa */
-    --text: #ffffff;      /* Cor do texto principal (Branco) */
-    --bg: #A81752;        /* Cor de fundo (Vinho) */
-    --glass: rgba(255, 255, 255, 0.12); /* Efeito de vidro suave sobre o vinho */
+    --primary: #ffcc00; 
+    --badge: #ffcc00; 
+    --text: #ffffff; 
+    --bg:#A81752; /* Cor de fundo (Vinho) */
+    --glass: rgba(255, 255, 255, 0.08); 
 }
 
 body { 

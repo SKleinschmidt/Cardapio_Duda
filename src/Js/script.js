@@ -1,27 +1,35 @@
-const DB_NAME = 'cardapio_final_v5';
+const DB_KEY = 'cardapio_v19_final';
 
-// Carrega os dados salvos ou inicia com padrão
-let data = JSON.parse(localStorage.getItem(DB_NAME)) || {
-    title: "CARDÁPIO", subtitle: "SABORES DO DIA", day: "Segunda",
-    bg: "#121212", text: "#ffffff", primary: "#ffcc00",
-    phone: "(47) 99999-9999", address: "Sua Rua aqui, 123",
-    ac: "Arroz, Feijão, Fritas, Salada", cr: "Bife Acebolado",
-    pr: {p: "15,00", m: "18,00", g: "22,00"}, img: ""
+// 1. Carregamento inicial de dados
+let data = JSON.parse(localStorage.getItem(DB_KEY)) || {
+    title: "CARDÁPIO",
+    subtitle: "SABORES DO DIA",
+    day: "Segunda",
+    footerLabel: "PEDIDOS NO WHATSAPP",
+    bg: "#121212",
+    text: "#ffffff",
+    primary: "#ffcc00",
+    phone: "(47) 99999-9999",
+    address: "Rua Principal, 123",
+    ac: "Arroz, Feijão, Fritas",
+    cr: "Carne, Frango",
+    pr: { p: "15,00", m: "18,00", g: "22,00" },
+    img: ""
 };
 
-// Função para desenhar o cardápio na tela
+// 2. Função para atualizar a visualização
 function render() {
     document.documentElement.style.setProperty('--bg', data.bg);
     document.documentElement.style.setProperty('--text', data.text);
     document.documentElement.style.setProperty('--primary', data.primary);
-    document.documentElement.style.setProperty('--badge', data.primary);
 
     document.getElementById('view-title').innerText = data.title;
     document.getElementById('view-subtitle').innerText = data.subtitle;
     document.getElementById('view-day').innerText = data.day;
+    document.getElementById('view-footer-label').innerText = data.footerLabel;
     document.getElementById('view-phone').innerText = data.phone;
     document.getElementById('view-address').innerText = data.address;
-    
+
     document.getElementById('view-ac').innerHTML = data.ac.split(',').map(i => i.trim()).join('<br>');
     document.getElementById('view-cr').innerHTML = data.cr.split(',').map(i => i.trim()).join('<br>');
 
@@ -32,14 +40,15 @@ function render() {
     `;
 
     const imgCont = document.getElementById('view-img-container');
-    imgCont.innerHTML = data.img ? `<img src="${data.img}">` : '';
+    imgCont.innerHTML = data.img ? `<img src="${data.img}" style="width:100%; height:100%; object-fit:cover;">` : '';
 }
 
-// Função para salvar as alterações do Admin
+// 3. Salvar alterações
 async function save() {
     data.title = document.getElementById('in-title').value;
     data.subtitle = document.getElementById('in-subtitle').value;
     data.day = document.getElementById('in-day').value;
+    data.footerLabel = document.getElementById('in-footer-label').value;
     data.bg = document.getElementById('in-bg').value;
     data.text = document.getElementById('in-text').value;
     data.primary = document.getElementById('in-primary').value;
@@ -52,38 +61,54 @@ async function save() {
     data.address = document.getElementById('in-address').value;
 
     const file = document.getElementById('in-img').files[0];
-    if(file) {
+    if (file) {
         const reader = new FileReader();
         reader.readAsDataURL(file);
-        reader.onload = () => { data.img = reader.result; finish(); };
-    } else { finish(); }
+        reader.onload = () => {
+            data.img = reader.result;
+            finishSave();
+        };
+    } else {
+        finishSave();
+    }
 }
 
-function finish() {
-    localStorage.setItem(DB_NAME, JSON.stringify(data));
+function finishSave() {
+    localStorage.setItem(DB_KEY, JSON.stringify(data));
     render();
-    alert("Cardápio salvo com sucesso!");
+    alert("Alterações salvas com sucesso!");
 }
 
-// Gera a imagem para download
-function download() {
-    html2canvas(document.getElementById('capture-area'), { scale: 2 }).then(canvas => {
+// 4. Download com nome dinâmico
+function downloadImage(type) {
+    const area = document.getElementById('capture-area');
+    const diaSemana = data.day || "Dia";
+    
+    if (type === 'feed') area.classList.add('feed-mode');
+
+    html2canvas(area, { scale: 1, useCORS: true }).then(canvas => {
         const link = document.createElement('a');
-        link.download = `cardapio-${data.day}.jpg`;
-        link.href = canvas.toDataURL("image/jpeg", 0.95);
+        if (type === 'feed') {
+            link.download = `Cardapio-feed-${diaSemana}.jpg`;
+        } else {
+            link.download = `Cardapio-Stories-Status-${diaSemana}.jpg`;
+        }
+        link.href = canvas.toDataURL("image/jpeg", 0.9);
         link.click();
+        area.classList.remove('feed-mode');
     });
 }
 
-// Mostra/Esconde o Admin
+// 5. Toggle Admin e Preenchimento Automático
 function toggleAdmin() {
-    const p = document.getElementById('admin-panel');
-    if(p.style.display === 'none') {
-        if(prompt("Senha de acesso:") === "123") {
-            p.style.display = 'block';
+    const panel = document.getElementById('admin-panel');
+    if (panel.style.display === 'none' || panel.style.display === '') {
+        if (prompt("Digite a senha:") === "123") {
+            panel.style.display = 'block';
             document.getElementById('in-title').value = data.title;
             document.getElementById('in-subtitle').value = data.subtitle;
             document.getElementById('in-day').value = data.day;
+            document.getElementById('in-footer-label').value = data.footerLabel;
             document.getElementById('in-bg').value = data.bg;
             document.getElementById('in-text').value = data.text;
             document.getElementById('in-primary').value = data.primary;
@@ -95,8 +120,9 @@ function toggleAdmin() {
             document.getElementById('in-phone').value = data.phone;
             document.getElementById('in-address').value = data.address;
         }
-    } else { p.style.display = 'none'; }
+    } else {
+        panel.style.display = 'none';
+    }
 }
 
-// Roda ao carregar a página
 render();

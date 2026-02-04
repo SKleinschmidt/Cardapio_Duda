@@ -1,7 +1,7 @@
 :root { 
     --primary: #ffcc00; /*Altera a cor do titulo*/
     --badge: #ffcc00; /*Altera a cor da faixa com a descrição do dia*/
-    --text: #ffffff; 
+    --text: #ffffff; /* Altera a cor da letras*/
     --bg:#A81752; /* Cor de fundo (Vinho) */
     --glass: rgba(255, 255, 255, 0.08); /*Altera a cor envolta da caixa dos preços*/
 }
@@ -146,26 +146,86 @@ body {
 .footer-address { 
     font-size: 0.85em; 
     opacity: 0.6; 
+    color: #ffcc00;
     display: block; 
 }
 
 /* MODO FEED (1080x1350) */
-.feed-mode { width: 1080px !important; height: 1350px !important; padding: 60px 80px !important; justify-content: space-between !important; }
-.feed-mode .badge-day { width: 500px !important; height: 90px !important; font-size: 2.5em !important; top: 60px !important; right: -130px !important; }
-.feed-mode .block-header { border-left-width: 20px; padding-left: 40px; margin-bottom: 30px; }
-.feed-mode .block-header h1 { font-size: 7em; }
-.feed-mode .block-header span { font-size: 3em; letter-spacing: 15px; }
-.feed-mode .block-image { height: 280px !important; margin-bottom: 30px; border-radius: 30px; }
-.feed-mode .block-menu { display: grid !important; grid-template-columns: 1fr 1fr !important; gap: 60px !important; flex-grow: 0 !important; margin-bottom: 20px; }
-.feed-mode .menu-title { font-size: 2.2em; border-bottom-width: 5px; margin-bottom: 15px; }
-.feed-mode .menu-items { font-size: 2.6em; line-height: 1.3; }
-.feed-mode .block-prices { gap: 30px; margin-bottom: 15px; }
-.feed-mode .price-card { padding: 20px 10px !important; border-radius: 20px; }
-.feed-mode .price-card b, .feed-mode .price-card span { font-size: 2.8em !important; }
-.feed-mode .block-footer { margin-top: auto !important; padding-top: 30px; border-top-width: 5px; }
-.feed-mode .footer-label { font-size: 1.8em !important; margin-bottom: 8px; }
-.feed-mode .footer-phone { font-size: 2.6em !important; font-weight: 800; }
-.feed-mode .footer-address { font-size: 2.4em !important; margin-top: 8px; opacity: 1; }
+.feed-mode {
+     width: 1080px !important;
+     height: 1350px !important;
+     padding: 60px 80px !important;
+     justify-content: space-between !important; 
+    }
+.feed-mode .badge-day { 
+     width: 500px !important;
+     height: 90px !important;
+     font-size: 2.5em !important;
+     top: 60px !important;
+     right: -130px !important; 
+    }
+.feed-mode .block-header { 
+    border-left-width: 20px; 
+    padding-left: 40px; 
+    margin-bottom: 30px; 
+     }
+.feed-mode .block-header h1 { 
+    font-size: 7em; 
+     }
+.feed-mode .block-header span {
+     font-size: 3em; 
+     letter-spacing: 15px; 
+    }
+.feed-mode .block-image {
+     height: 280px !important; 
+     margin-bottom: 30px; 
+     border-radius: 30px;
+     }
+.feed-mode .block-menu {
+     display: grid !important; 
+     grid-template-columns: 1fr 1fr !important; 
+     gap: 60px !important; 
+     flex-grow: 0 !important; 
+     margin-bottom: 20px;
+     }
+.feed-mode .menu-title {
+     font-size: 2.2em; 
+     border-bottom-width: 5px; 
+     margin-bottom: 15px;
+     }
+.feed-mode .menu-items {
+     font-size: 2.6em; 
+     line-height: 1.3;
+     }
+.feed-mode .block-prices {
+     gap: 30px; 
+     margin-bottom: 15px; 
+    }
+.feed-mode .price-card {
+     padding: 20px 10px !important; 
+     border-radius: 20px;
+     }
+.feed-mode .price-card b, .feed-mode .price-card span {
+     font-size: 2.8em !important; 
+    }
+.feed-mode .block-footer {
+     margin-top: auto !important; 
+     padding-top: 30px; 
+     border-top-width: 5px;
+     }
+.feed-mode .footer-label {
+     font-size: 1.8em !important; 
+     margin-bottom: 8px;
+     }
+.feed-mode .footer-phone {
+     font-size: 2.6em !important; 
+     font-weight: 800;
+     }
+.feed-mode .footer-address {
+     font-size: 2.4em !important; 
+     margin-top: 8px; opacity: 1; 
+     color: #ffcc00 !important;
+     }
 
 /* ADMIN PANEL */
 #admin-panel { 

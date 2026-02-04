@@ -1,4 +1,4 @@
-const DB_KEY = 'cardapio_v19_final';
+const DB_KEY = 'cardapio_v20_ajuste_cores'; // Alterado para forçar atualização no navegador
 
 // 1. Carregamento inicial de dados
 let data = JSON.parse(localStorage.getItem(DB_KEY)) || {
@@ -24,11 +24,22 @@ function render() {
     document.documentElement.style.setProperty('--primary', data.primary);
 
     document.getElementById('view-title').innerText = data.title;
-    document.getElementById('view-subtitle').innerText = data.subtitle;
+    
+    // --- CORREÇÃO SUBTÍTULO ---
+    const vSubtitle = document.getElementById('view-subtitle');
+    vSubtitle.innerText = data.subtitle;
+    vSubtitle.style.color = "#ffffff"; // Força o subtítulo em BRANCO
+    vSubtitle.style.opacity = "1";    // Garante nitidez total
+
     document.getElementById('view-day').innerText = data.day;
     document.getElementById('view-footer-label').innerText = data.footerLabel;
     document.getElementById('view-phone').innerText = data.phone;
-    document.getElementById('view-address').innerText = data.address;
+
+    // --- CORREÇÃO ENDEREÇO ---
+    const vAddress = document.getElementById('view-address');
+    vAddress.innerText = data.address;
+    vAddress.style.color = "#ffcc00"; // Força o endereço em AMARELO
+    vAddress.style.opacity = "1";    // Garante nitidez total
 
     document.getElementById('view-ac').innerHTML = data.ac.split(',').map(i => i.trim()).join('<br>');
     document.getElementById('view-cr').innerHTML = data.cr.split(',').map(i => i.trim()).join('<br>');

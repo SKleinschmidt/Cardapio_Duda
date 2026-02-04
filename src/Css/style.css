@@ -1,9 +1,9 @@
 :root { 
-    --primary: #ffcc00; 
-    --badge: #ffcc00; 
+    --primary: #ffcc00; /*Altera a cor do titulo*/
+    --badge: #ffcc00; /*Altera a cor da faixa com a descrição do dia*/
     --text: #ffffff; 
     --bg:#A81752; /* Cor de fundo (Vinho) */
-    --glass: rgba(255, 255, 255, 0.08); 
+    --glass: rgba(255, 255, 255, 0.08); /*Altera a cor envolta da caixa dos preços*/
 }
 
 body { 

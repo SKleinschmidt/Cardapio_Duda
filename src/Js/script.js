@@ -3,12 +3,12 @@ const DB_KEY = 'cardapio_v19_final';
 // 1. Carregamento inicial de dados
 let data = JSON.parse(localStorage.getItem(DB_KEY)) || {
     title: "CARDÁPIO",
-    subtitle: "SABORES DO DIA",
+    subtitle: "DO DIA",
     day: "Segunda",
     footerLabel: "PEDIDOS NO WHATSAPP",
     bg: "#A81752", /* Cor de fundo (Vinho) */
     text: "#ffffff",
-    primary: "#ffcc00",
+    primary: "#ffcc00",/*Altera os h1 */
     phone: "(47) 99999-9999",
     address: "Rua Principal, 123",
     ac: "Arroz, Feijão, Fritas",
